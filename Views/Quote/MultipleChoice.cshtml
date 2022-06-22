@@ -1,0 +1,53 @@
+﻿@model List<QuoteViewModel>
+
+@{
+    ViewBag.Title = "Multiple Choice";
+}
+
+@if (Model == null)
+{
+    <h4>No found quotes yet...</h4>
+}
+else
+{
+    const int countPossibleAnswers = 3;
+    var randomQuote = new Random().Next(0, Model.Count);
+
+    var correctQuoteId = Model[randomQuote].Id;
+    var correctAuthorName = Model[randomQuote].Author.Name;
+    var correctAuthorId = Model[randomQuote].Author.Id;
+
+    var randomIndexForCorrectAuthorName = new Random().Next(0, countPossibleAnswers);
+    var alreadyShowedAuthors = new List<int>();
+
+    <h2 class="heading-margin text-center">Who said It?</h2>
+    <div class="card text-center" style="background-color:mediumpurple">
+        <div class="card-body">
+            <p class="card-text" style="color:white">"@Model[randomQuote].Text"</p>
+        </div>
+    </div>
+
+    <div class="text-center mt-2">
+        @for (int i = 0; i < countPossibleAnswers; i++)
+        {
+            var randomAuthor = new Random().Next(0, Model.Count);
+            if ((i == randomIndexForCorrectAuthorName) && (!alreadyShowedAuthors.Contains(correctAuthorId)))
+            {
+                alreadyShowedAuthors.Add(correctAuthorId);
+                <a asp-controller="Quote" asp-action="MultipleChoice" asp-route-quoteId="@correctQuoteId" asp-route-authorId="@correctAuthorId" class="btn btn-warning m-2">@correctAuthorName</a>
+                <br>
+            }
+            else
+            {
+                while (alreadyShowedAuthors.Contains(Model[randomAuthor].Author.Id))
+                {
+                    randomAuthor = new Random().Next(0, Model.Count);
+                }
+                alreadyShowedAuthors.Add(Model[randomAuthor].Author.Id);
+                <a asp-controller="Quote" asp-action="MultipleChoice" asp-route-quoteId="@Model[randomQuote].Id" asp-route-authorId="@Model[randomAuthor].Author.Id" class="btn btn-warning m-2">@Model[randomAuthor].Author.Name</a>
+                <br>
+            }
+        }
+    </div>
+    <a asp-controller="Quote" asp-action="MultipleChoice" class="btn btn-primary mt-2 float-end">Next</a>
+}

@@ -1,0 +1,33 @@
+﻿@model QuoteFormModel
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <h2 class="heading-margin text-center">@ViewBag.Title</h2>
+
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Text"></label>
+                <textarea asp-for="Text" class="form-control" placeholder="Quote text..."></textarea>
+                <span asp-validation-for="Text" class="small text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="AuthorId"></label>
+                <select asp-for="AuthorId" class="form-control">
+                    <option value="@Model.AuthorId" selected>@Model.AuthorName</option>
+                    @foreach (var author in Model.Authors)
+                    {
+                        if (author.Id != Model.AuthorId)
+                        {
+                            <option value="@author.Id">@author.Name</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="AuthorId" class="small text-danger"></span>
+            </div>
+            <br />
+
+            <input type="submit" class="btn btn-primary" value="Save">
+        </form>
+    </div>
+</div>

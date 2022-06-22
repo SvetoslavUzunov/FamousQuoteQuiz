@@ -1,0 +1,30 @@
+﻿@model List<AuthorViewModel>
+
+@{
+    ViewBag.Title = "All Authors";
+}
+
+@if (!Model.Any())
+{
+    <h4>No found authors yet...</h4>
+}
+else
+{
+    <div class="container">
+        <div class="row card-header">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <div class="col col-md-3">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">@Model[i].Name</h5>
+                            <a asp-controller="Author" asp-action="QuotesByAuthor" asp-route-id="@Model[i].Id" class="btn btn-success">Quotes</a>
+                            <a asp-controller="Author" asp-action="Edit" asp-route-id="@Model[i].Id" class="btn btn-warning ms-4">Edit</a>
+                            <a asp-controller="Author" asp-action="Delete" asp-route-id="@Model[i].Id" class="btn btn-danger float-end">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

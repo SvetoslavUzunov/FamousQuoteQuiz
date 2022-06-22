@@ -1,0 +1,30 @@
+﻿@model List<QuoteViewModel>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@if (Model == null)
+{
+    <h4>To start the game, you shout add author and then quote!</h4>
+}
+else
+{
+    var randomQuote = new Random().Next(0, Model.Count);
+    var randomAuthor = new Random().Next(0, Model.Count);
+
+    <h2 class="heading-margin text-center">Who said It?</h2>
+    <div class="card text-center" style="background-color:mediumpurple">
+        <div class="card-body" style="color:white">
+            <p class="card-text">"@Model[randomQuote].Text"</p>
+        </div>
+    </div>
+    <h5 class="text-center m-2">@Model[randomAuthor].Author.Name?</h5>
+
+    <div class="row m-4">
+        <div class="col-12 justify-content-center text-center">
+            <a asp-controller="Quote" asp-action="YesAnswer" asp-route-quoteId="@Model[randomQuote].Id" asp-route-authorId="@Model[randomAuthor].Author.Id" class="btn btn-success">Yes</a>
+            <a asp-controller="Quote" asp-action="NoAnswer" asp-route-quoteId="@Model[randomQuote].Id" asp-route-authorId="@Model[randomAuthor].Author.Id" class="btn btn-danger">No</a>
+        </div>
+    </div>
+}

@@ -1,0 +1,30 @@
+﻿@model List<QuoteViewModel>
+
+@{
+    ViewBag.Title = "All Quotes";
+}
+
+@if (!Model.Any())
+{
+    <h4>No found quotes yet...</h4>
+}
+else
+{
+    <div class="container">
+        <div class="row card-header">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <div class="col col-md-3">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title text-secondary">"@Model[i].Text"</h5>
+                            <h5 class="card-text">@Model[i].Author.Name</h5>
+                            <a asp-controller="Quote" asp-action="Edit" asp-route-id="@Model[i].Id" class="btn btn-warning">Edit</a>
+                            <a asp-controller="Quote" asp-action="Delete" asp-route-id="@Model[i].Id" class="btn btn-danger float-end">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
